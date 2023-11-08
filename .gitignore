@@ -3,6 +3,5 @@ personal
 __pycache__
 *ipynb*
 *vscode
-images
 tests
 .pytest_cache
