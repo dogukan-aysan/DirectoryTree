@@ -1,4 +1,4 @@
-# directory_tree
+# Directory Tree Project
 
 `directory_tree` is a command-line tool to generate and display a tree-like diagram listing the internal structure of a given root directory.
 
