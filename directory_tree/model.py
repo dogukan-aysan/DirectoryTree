@@ -40,19 +40,18 @@ class Traverser:
 
     def traverse(self):
         items = self._get_items()
-        if not len(items) == 0:
-            for item in items:
-                self.data.current_item = item
-                self.data.is_last_item = items.index(item) == len(items) - 1
-                self._add_line_to_tree()
-                if item.is_dir():
-                    if self._is_max_depth_reached():
-                        continue
-                    else:
-                        self._increase_level()
-                        self.data.path = self.data.current_item.path
-                        self.traverse()
-                        self.data.current_level -= 1
+        for item in items:
+            self.data.current_item = item
+            self.data.is_last_item = items.index(item) == len(items) - 1
+            self._add_line_to_tree()
+            if item.is_dir():
+                if self._is_max_depth_reached():
+                    continue
+                else:
+                    self._increase_level()
+                    self.data.path = self.data.current_item.path
+                    self.traverse()
+                    self.data.current_level -= 1
 
     def _add_line_to_tree(self):
         line = self.my_line_generator.generate_line()
