@@ -15,7 +15,9 @@ def main():
         print("This not a valid path")
         sys.exit()
     else:
-        tree_generator = TreeGenerator(args.path, args.depth, args.colorless)
+        tree_generator = TreeGenerator(
+            args.path, args.depth, args.colorless, args.hidden
+        )
         tree = tree_generator.generate()
         print(tree)
 
@@ -50,7 +52,14 @@ def parse_command_line_arguments():
         "--colorless",
         action="store_true",
         default=False,
-        help="allow colorless tree",
+        help="generate colorless tree (default: false)",
+    )
+    # hidden
+    detailed.add_argument(
+        "--hidden",
+        action="store_true",
+        default=False,
+        help="include hidden items (default: false)",
     )
     # version
     detailed.add_argument(

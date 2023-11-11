@@ -6,16 +6,14 @@ from dataclasses import dataclass
 
 
 class TreeGenerator:
-    def __init__(self, path, max_depth, colorless) -> None:
-        self.path = path
-        self.max_depth = max_depth
-        self.colorless = colorless
+    def __init__(self, path, max_depth, colorless, hidden) -> None:
         self.data_class = DataClass(
-            path=self.path,
+            path=path,
             current_item=None,
             last_item_states={"0": False},
-            max_depth=self.max_depth,
-            colorless=self.colorless,
+            max_depth=max_depth,
+            colorless=colorless,
+            hidden=hidden,
         )
 
     def generate(self) -> str:
@@ -30,7 +28,8 @@ class DataClass:
     current_item: os.DirEntry | None
     last_item_states: dict
     max_depth: int
-    colorless: bool = False
+    colorless: bool
+    hidden: bool
     tree: str = ""
     is_last_item: bool = False
     current_level: int = 0
@@ -48,6 +47,8 @@ class Traverser:
         items = self._get_items()
         for item in items:
             self.data.current_item = item
+            if self._is_hidden() and not self._is_hidden_items_included():
+                continue
             self.data.is_last_item = items.index(item) == len(items) - 1
             self._add_line_to_tree()
             if item.is_dir():
@@ -83,6 +84,12 @@ class Traverser:
     def _increase_level(self):
         self.data.current_level += 1
         self.data.last_item_states[str(self.data.current_level)] = False
+
+    def _is_hidden_items_included(self):
+        return self.data.hidden
+
+    def _is_hidden(self):
+        return self.data.current_item.name[0] == "."
 
 
 class _LineGenerator:
