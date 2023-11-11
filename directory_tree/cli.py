@@ -1,11 +1,11 @@
 """This module provides the application’s command-line interface."""
 
 from argparse import ArgumentParser, SUPPRESS
+import pathlib
+import sys
 
 from model import TreeGenerator
 from __init__ import __version__
-import pathlib
-import sys
 
 
 def main():

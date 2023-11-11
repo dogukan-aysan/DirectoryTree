@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 
 class TreeGenerator:
+    """This class initializes a 'DataClass' instance and then uses a 'Traverser' instance to generate the directory tree structure"""
+
     def __init__(self, path, max_depth, colorless, hidden) -> None:
         self.data_class = DataClass(
             path=path,
@@ -36,6 +38,8 @@ class DataClass:
 
 
 class Traverser:
+    """This class is responsible for traversing the directory structure and building the tree"""
+
     def __init__(self, data):
         self.data = data
         if self.data.colorless:
@@ -65,15 +69,9 @@ class Traverser:
         self.data.tree += line
 
     def _get_items(self) -> list:
-        generator_obj_of_directory = os.scandir(self.data.path)
         items = []
-        if generator_obj_of_directory:
-            while True:
-                try:
-                    item = next(generator_obj_of_directory)
-                    items.append(item)
-                except StopIteration:
-                    break
+        for item in os.scandir(self.data.path):
+            items.append(item)
         return items
 
     def _is_max_depth_reached(self) -> bool:
