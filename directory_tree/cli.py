@@ -2,7 +2,7 @@
 
 from argparse import ArgumentParser, SUPPRESS
 
-from model import generate
+from model import TreeGenerator
 from __init__ import __version__
 import pathlib
 import sys
@@ -15,7 +15,8 @@ def main():
         print("This not a valid path")
         sys.exit()
     else:
-        tree = generate(args.path, args.depth, args.colorless)
+        tree_generator = TreeGenerator(args.path, args.depth, args.colorless)
+        tree = tree_generator.generate()
         print(tree)
 
 

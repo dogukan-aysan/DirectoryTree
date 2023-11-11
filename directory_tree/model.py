@@ -5,17 +5,23 @@ from colored import Style, style, back, fore
 from dataclasses import dataclass
 
 
-def generate(path, max_depth, colorless) -> str:
-    my_data_class = DataClass(
-        path=path,
-        current_item=None,
-        last_item_states={"0": False},
-        max_depth=max_depth,
-        colorless=colorless,
-    )
-    my_traverser = Traverser(my_data_class)
-    my_traverser.traverse()
-    return my_data_class.tree
+class TreeGenerator:
+    def __init__(self, path, max_depth, colorless) -> None:
+        self.path = path
+        self.max_depth = max_depth
+        self.colorless = colorless
+        self.data_class = DataClass(
+            path=self.path,
+            current_item=None,
+            last_item_states={"0": False},
+            max_depth=self.max_depth,
+            colorless=self.colorless,
+        )
+
+    def generate(self) -> str:
+        my_traverser = Traverser(self.data_class)
+        my_traverser.traverse()
+        return self.data_class.tree
 
 
 @dataclass
