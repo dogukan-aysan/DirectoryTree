@@ -42,10 +42,7 @@ class Traverser:
 
     def __init__(self, data):
         self.data = data
-        if self.data.colorless:
-            self.my_line_generator = _ColorlessLineGenerator(self.data)
-        else:
-            self.my_line_generator = _LineGenerator(self.data)
+        self.my_line_generator = _LineGenerator(self.data)
 
     def traverse(self):
         items = self._get_items()
@@ -98,9 +95,13 @@ class _LineGenerator:
         self.pipe_prefix = "│   "
         self.tee = "├──"
         self.elbow = "└──"
-        self.directory_color = f"{style(1)}{back(18)}"
-        self.file_color = f"{style(1)}{fore(40)}"
-        self.symlink_color = f"{style(1)}{fore(84)}{back(43)}"
+        self.directory_color = (
+            f"{style(1)}{back(18)}" if not self.data.colorless else ""
+        )
+        self.file_color = f"{style(1)}{fore(40)}" if not self.data.colorless else ""
+        self.symlink_color = (
+            f"{style(1)}{fore(84)}{back(43)}" if not self.data.colorless else ""
+        )
 
     def generate_line(self) -> str:
         self.line = ""
@@ -141,11 +142,3 @@ class _LineGenerator:
 
         else:
             raise TypeError("unknown item type")
-
-
-class _ColorlessLineGenerator(_LineGenerator):
-    def __init__(self, data) -> None:
-        super().__init__(data)
-
-    def _write_item(self) -> None:
-        self.line += self.data.current_item.name + "\n"

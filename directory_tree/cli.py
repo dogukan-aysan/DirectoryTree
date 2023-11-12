@@ -44,7 +44,7 @@ def parse_command_line_arguments():
         type=int,
         default=5,
         choices=range(1, 11),
-        help="set the maximum allowed depth",
+        help="set the maximum allowed depth (default: 5, max: 10)",
         metavar="<num>",
     )
     # colorless tree
