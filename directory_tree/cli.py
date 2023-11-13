@@ -14,9 +14,17 @@ def main():
     if not given_path.is_dir():
         print("This not a valid path")
         sys.exit()
+    if args.dir_only and args.file_only:
+        print("Only one should be included (dir_only | file_only)")
+        sys.exit()
     else:
         tree_generator = TreeGenerator(
-            args.path, args.depth, args.colorless, args.hidden
+            args.path,
+            args.depth,
+            args.colorless,
+            args.hidden,
+            args.dir_only,
+            args.file_only,
         )
         tree = tree_generator.generate()
         print(tree)
@@ -60,6 +68,20 @@ def parse_command_line_arguments():
         action="store_true",
         default=False,
         help="include hidden items (default: false)",
+    )
+    # dir_only
+    detailed.add_argument(
+        "--dir_only",
+        action="store_true",
+        default=False,
+        help="include directories only (default: false)",
+    )
+    # file_only
+    detailed.add_argument(
+        "--file_only",
+        action="store_true",
+        default=False,
+        help="include files only (default: false)",
     )
     # version
     detailed.add_argument(
